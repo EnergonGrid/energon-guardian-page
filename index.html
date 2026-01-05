@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <title>ENERGON</title>
   <meta name="robots" content="noindex,nofollow" />
+
   <style>
     body {
       margin: 0;
@@ -16,27 +17,41 @@
       height: 100vh;
       letter-spacing: 1px;
     }
+
     .denied {
       font-size: 22px;
       opacity: 0.7;
     }
+
+    /* Hidden but clickable */
+    .hidden-link {
+      position: fixed;
+      bottom: 12px;
+      right: 14px;
+      font-size: 10px;
+      opacity: 0.05;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+
+    .hidden-link:hover {
+      opacity: 0.25;
+    }
   </style>
 </head>
+
 <body>
 
   <div class="denied">ACCESS DENIED</div>
 
-<!--
-Recovered Fragment #001
-<a href="/guardian.html">hidden</a>
--->
-
   <!--
+    Recovered Fragment #001
     The Grid does not block.
     It waits.
-
-    <a href="/fragment.html">hidden</a>
   -->
+
+  <a href="fragment.html" class="hidden-link">fragment</a>
 
 </body>
 </html>

@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>ENERGON</title>
   <meta name="robots" content="noindex,nofollow" />
+
   <style>
     body {
       margin: 0;
@@ -17,10 +18,28 @@
       letter-spacing: 1px;
       text-align: center;
     }
+
     .gate {
       opacity: 0.9;
       font-size: 15px;
       line-height: 1.8;
+    }
+
+    /* Hidden but real */
+    .hidden-link {
+      position: fixed;
+      bottom: 14px;
+      right: 16px;
+      font-size: 10px;
+      opacity: 0.06;
+      color: rgba(0,255,255,0.9);
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: opacity 0.3s ease;
+    }
+
+    .hidden-link:hover {
+      opacity: 0.35;
     }
   </style>
 </head>
@@ -33,10 +52,10 @@
   <!--
     Signal verified.
     Position acknowledged.
-
     One step remains.
-
-    /guardian.html
   -->
 
+  <a href="guardian.html" class="hidden-link">guardian</a>
+
 </body>
+</html>
