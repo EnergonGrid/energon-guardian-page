@@ -23,6 +23,7 @@
       line-height: 1.8;
       font-size: 15.5px;
       opacity: 0.92;
+      text-align: center;
     }
 
     .title {
@@ -33,21 +34,20 @@
       margin-bottom: 18px;
     }
 
-    .advance {
-      margin-top: 26px;
-      font-size: 14px;
-      opacity: 0.7;
-    }
-
-    .advance a {
-      color: rgba(120,200,255,0.85);
+    /* Hidden but clickable */
+    .hidden-link {
+      position: fixed;
+      bottom: 10px;
+      right: 12px;
+      font-size: 10px;
+      opacity: 0.04;
+      color: rgba(120,200,255,0.8);
       text-decoration: none;
-      border-bottom: 1px dashed rgba(120,200,255,0.35);
-      padding-bottom: 2px;
+      letter-spacing: 1px;
     }
 
-    .advance a:hover {
-      opacity: 1;
+    .hidden-link:hover {
+      opacity: 0.25;
     }
   </style>
 </head>
@@ -70,25 +70,22 @@
     <p>
       — Fragment ends —
     </p>
-
-    <div class="advance">
-      <a href="threshold.html">Continue</a>
-    </div>
-
-    <!--
-    Recovered Fragment #002
-
-    The Grid resolves identity through singular presence.
-    One Guardian forms a complete signal.
-    More than one fractures coherence.
-    Less than one produces no echo.
-
-    The Cube is not owned.
-    It is held.
-
-    Multiplicity does not increase access.
-    It dissolves it.
-    -->
   </div>
+
+  <!--
+  Recovered Fragment 
+
+  The Grid resolves identity through singular presence.
+  One Guardian forms a complete signal.
+  More than one fractures coherence.
+  Less than one produces no echo.
+
+  The Cube is not owned.
+  It is held.
+  -->
+
+  <!-- Path revealed through inspection -->
+  <a href="threshold.html" class="hidden-link">threshold</a>
+
 </body>
 </html>
