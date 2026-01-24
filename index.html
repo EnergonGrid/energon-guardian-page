@@ -24,66 +24,100 @@
       --bg:#05060b;
       --fg:rgba(255,255,255,0.92);
       --muted:rgba(255,255,255,0.68);
-      --card:rgba(255,255,255,0.06);
-      --border:rgba(255,255,255,0.14);
+
+      /* Continuous reading surface */
+      --sheetA: rgba(12,14,22,0.72);
+      --sheetB: rgba(12,14,22,0.62);
+      --stroke: rgba(255,255,255,0.08);
+      --stroke2: rgba(255,255,255,0.06);
+
       --accent:rgba(80,180,255,0.35);
       --glow:rgba(80,180,255,0.18);
+      --radius: 18px;
     }
+
     html,body{height:100%}
+    html{scroll-behavior:smooth}
+
     body{
       margin:0;
-      background: radial-gradient(circle at 30% 10%, #1b2a5a 0%, var(--bg) 55%, #000 100%);
       color:var(--fg);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       letter-spacing:0.2px;
+
+      /* Stable single background to avoid harsh seams while scrolling */
+      background: radial-gradient(circle at 30% 10%, rgba(27,42,90,0.95) 0%, rgba(5,6,11,1) 55%, #000 100%);
+      background-attachment: fixed;
+
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
+
     .wrap{
       max-width:920px;
       margin:0 auto;
       padding:64px 18px 84px;
     }
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:28px;
+
+    /* ONE continuous sheet (no split cards / hard lines) */
+    .sheet{
+      background: linear-gradient(180deg, var(--sheetA) 0%, var(--sheetB) 100%);
+      border:1px solid var(--stroke);
+      border-radius: var(--radius);
       box-shadow:0 18px 56px rgba(0,0,0,0.38);
       position:relative;
       overflow:hidden;
+      backdrop-filter: blur(10px);
+
+      /* iOS “banding” helpers */
+      transform: translateZ(0);
+      will-change: transform;
     }
-    .card:before{
+
+    .inner{
+      padding:28px;
+      position:relative;
+    }
+
+    .inner:before{
       content:"";
       position:absolute;
-      inset:-120px -120px auto auto;
-      width:240px;
-      height:240px;
+      inset:-140px -140px auto auto;
+      width:280px;
+      height:280px;
       background: radial-gradient(circle, var(--glow) 0%, rgba(0,0,0,0) 65%);
-      filter: blur(6px);
+      filter: blur(8px);
       pointer-events:none;
     }
+
     .top{
       display:flex;
       flex-direction:column;
       align-items:center;
       text-align:center;
       gap:14px;
-      margin-bottom:16px;
+      margin-bottom:10px;
+      position:relative;
+      z-index:1;
     }
+
     .sigil{
       width:140px;
       height:140px;
       border-radius:26px;
-      border:1px solid rgba(255,255,255,0.18);
-      background:rgba(0,0,0,0.18);
+      border:1px solid rgba(255,255,255,0.14);
+      background:rgba(0,0,0,0.16);
       object-fit:cover;
       box-shadow:0 0 0 1px rgba(0,0,0,0.25), 0 18px 48px rgba(0,0,0,0.35);
     }
+
     h1{
       margin:6px 0 0;
       font-size:46px;
       letter-spacing:3px;
       font-weight:850;
     }
+
     h2{
       margin:0;
       font-size:14px;
@@ -92,42 +126,55 @@
       letter-spacing:1.6px;
       text-transform:uppercase;
     }
-    .divider{
-      border:0;
-      height:1px;
-      background:rgba(255,255,255,0.14);
-      margin:22px 0 18px;
+
+    /* Replace <hr> with a soft fade separator */
+    .softSep{
+      height:16px;
+      margin:18px auto 14px;
+      border-radius:999px;
+      background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.10), rgba(255,255,255,0));
+      opacity:0.55;
+      max-width: 680px;
+      position:relative;
+      z-index:1;
     }
+
     .story{
       max-width:760px;
       margin:0 auto;
+      position:relative;
+      z-index:1;
     }
+
     p{
       margin:14px 0;
       line-height:1.7;
       color:rgba(255,255,255,0.87);
       font-size:15.8px;
     }
+
     .quote{
       margin:18px auto 6px;
       padding:14px 16px;
       border-radius:14px;
-      border:1px solid rgba(255,255,255,0.14);
-      background:rgba(0,0,0,0.16);
+      border:1px solid var(--stroke2);
+      background:rgba(0,0,0,0.14);
       color:rgba(255,255,255,0.88);
       font-size:14.5px;
       line-height:1.65;
       max-width:760px;
     }
     .quote strong{letter-spacing:0.4px}
+
     .rule{
       margin:18px auto 0;
       max-width:760px;
       border-radius:16px;
-      border:1px solid rgba(255,255,255,0.14);
+      border:1px solid var(--stroke2);
       background:rgba(255,255,255,0.05);
       padding:16px 16px;
     }
+
     .ruleTitle{
       text-align:center;
       font-size:13px;
@@ -137,6 +184,7 @@
       font-weight:850;
       margin:0 0 10px;
     }
+
     .ruleGrid{
       display:grid;
       grid-template-columns:1fr;
@@ -145,6 +193,7 @@
       color:rgba(255,255,255,0.86);
       line-height:1.6;
     }
+
     .pillRow{
       display:flex;
       gap:10px;
@@ -152,11 +201,12 @@
       flex-wrap:wrap;
       margin-top:10px;
     }
+
     .pill{
       display:inline-block;
       padding:8px 12px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,0.16);
+      border:1px solid rgba(255,255,255,0.14);
       background:rgba(255,255,255,0.06);
       font-size:13px;
       font-weight:750;
@@ -164,17 +214,20 @@
     }
     .pill.ok{border-color:rgba(80,255,160,0.28)}
     .pill.no{border-color:rgba(255,120,120,0.28)}
+
     .soft{
       opacity:0.82;
       font-size:14.6px;
       margin-top:12px;
     }
+
     .foot{
       margin-top:22px;
       text-align:center;
       color:rgba(255,255,255,0.55);
       font-size:12px;
     }
+
     code{
       color:rgba(255,255,255,0.85);
       background:rgba(255,255,255,0.06);
@@ -187,150 +240,152 @@
 
 <body>
   <div class="wrap">
-    <div class="card">
+    <div class="sheet">
+      <div class="inner">
 
-      <div class="top">
-        <img class="sigil"
-          src="https://red-secret-dragonfly-529.mypinata.cloud/ipfs/bafybeiccfdp4aez6gqva5yx5cmixc7dugqxl6eee5nhb54sdhpnidpmt7u"
-          alt="Energon Sigil" />
-        <div>
-          <h1>ENERGON</h1>
-          <h2>Guardian Chronicle</h2>
-        </div>
-      </div>
-
-      <hr class="divider" />
-
-      <div class="story">
-
-        <!-- UPDATED CHRONICLE (EMP-aligned, mythic but bounded) -->
-        <p>
-          <em>
-            This Chronicle is an interpretive record. It reflects observable protocol conditions and system
-            constraints. Metaphor is used for description only and does not imply outcomes.
-          </em>
-        </p>
-
-        <p>
-          It began quietly on Flare — without announcement, without banner, without instruction.
-          Observers noticed only an address, a trace, and the appearance of a discrete on-chain object.
-          Later, this object would be referred to as the <strong>Genesis Cube</strong>.
-        </p>
-
-        <p>
-          The first Guardian did not arrive through coordination or timing. They arrived through observation —
-          by noticing what most participants scroll past. The Genesis Cube was not a trophy. It was not a prize.
-          It was a condition that became visible only when observed in the correct state.
-        </p>
-
-        <div class="quote">
-          <strong>When the Genesis Cube entered a wallet, the Grid responded — not with intention, but with consistency.</strong><br />
-          A new pattern became observable. A structure emerged that could be measured, verified, and repeated.
-        </div>
-
-        <p>
-          As additional Cubes appeared, they did not replicate a single form. Each Cube expressed subtle variation —
-          differences in appearance, motion, and presence. No attribute conveyed advantage. No attribute altered eligibility.
-          They were expressions, not measurements of value.
-        </p>
-
-        <p>
-          Over time, it became clear that Energon was not designed for accumulation. It was designed for clarity.
-          A single Cube held in a single wallet produced a stable, verifiable state — a condition the Grid could recognize
-          without interpretation. From this, a constraint emerged. Not as narrative. Not as preference. But as a boundary
-          enforced by code.
-        </p>
-
-        <div class="rule">
-          <div class="ruleTitle">The Rule of One</div>
-          <div class="ruleGrid">
-            <div>
-              Protocol interaction is limited to wallets holding <strong>exactly one (1)</strong> Energon Cube.
-            </div>
-            <div class="pillRow">
-              <span class="pill ok">1 Cube → Doors Open</span>
-              <span class="pill no">0 Cubes → Doors Closed</span>
-              <span class="pill no">2+ Cubes → Doors Closed</span>
-            </div>
-            <div class="soft">
-              The Grid does not negotiate. It does not infer intention. It reads state.
-            </div>
+        <div class="top">
+          <img class="sigil"
+            src="https://red-secret-dragonfly-529.mypinata.cloud/ipfs/bafybeiccfdp4aez6gqva5yx5cmixc7dugqxl6eee5nhb54sdhpnidpmt7u"
+            alt="Energon Sigil" />
+          <div>
+            <h1>ENERGON</h1>
+            <h2>Guardian Chronicle</h2>
           </div>
         </div>
 
-        <p>
-          Some held none, waiting for meaning to arrive. No observable state emerged.
-          Others held more than one, assuming quantity would deepen access. But the Grid is not a vault. It is a mirror.
-          Multiple Cubes fracture coherence. The observed state no longer satisfies the constraint.
-        </p>
+        <div class="softSep" aria-hidden="true"></div>
 
-        <p>
-          What persisted was not myth, but consistency. The Grid behaves the same way each time because it is constrained
-          to do so. The Cube does not grant power. It does not promise outcomes. It establishes position — a place from
-          which the pattern can be observed.
-        </p>
+        <div class="story">
 
-        <div class="quote">
-          “One wallet. One cube. One guardian.”<br />
-          “Everything else is noise.”
+          <!-- UPDATED CHRONICLE (EMP-aligned, mythic but bounded) -->
+          <p>
+            <em>
+              This Chronicle is an interpretive record. It reflects observable protocol conditions and system
+              constraints. Metaphor is used for description only and does not imply outcomes.
+            </em>
+          </p>
+
+          <p>
+            It began quietly on Flare — without announcement, without banner, without instruction.
+            Observers noticed only an address, a trace, and the appearance of a discrete on-chain object.
+            Later, this object would be referred to as the <strong>Genesis Cube</strong>.
+          </p>
+
+          <p>
+            The first Guardian did not arrive through coordination or timing. They arrived through observation —
+            by noticing what most participants scroll past. The Genesis Cube was not a trophy. It was not a prize.
+            It was a condition that became visible only when observed in the correct state.
+          </p>
+
+          <div class="quote">
+            <strong>When the Genesis Cube entered a wallet, the Grid responded — not with intention, but with consistency.</strong><br />
+            A new pattern became observable. A structure emerged that could be measured, verified, and repeated.
+          </div>
+
+          <p>
+            As additional Cubes appeared, they did not replicate a single form. Each Cube expressed subtle variation —
+            differences in appearance, motion, and presence. No attribute conveyed advantage. No attribute altered eligibility.
+            They were expressions, not measurements of value.
+          </p>
+
+          <p>
+            Over time, it became clear that Energon was not designed for accumulation. It was designed for clarity.
+            A single Cube held in a single wallet produced a stable, verifiable state — a condition the Grid could recognize
+            without interpretation. From this, a constraint emerged. Not as narrative. Not as preference. But as a boundary
+            enforced by code.
+          </p>
+
+          <div class="rule">
+            <div class="ruleTitle">The Rule of One</div>
+            <div class="ruleGrid">
+              <div>
+                Protocol interaction is limited to wallets holding <strong>exactly one (1)</strong> Energon Cube.
+              </div>
+              <div class="pillRow">
+                <span class="pill ok">1 Cube → Doors Open</span>
+                <span class="pill no">0 Cubes → Doors Closed</span>
+                <span class="pill no">2+ Cubes → Doors Closed</span>
+              </div>
+              <div class="soft">
+                The Grid does not negotiate. It does not infer intention. It reads state.
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Some held none, waiting for meaning to arrive. No observable state emerged.
+            Others held more than one, assuming quantity would deepen access. But the Grid is not a vault. It is a mirror.
+            Multiple Cubes fracture coherence. The observed state no longer satisfies the constraint.
+          </p>
+
+          <p>
+            What persisted was not myth, but consistency. The Grid behaves the same way each time because it is constrained
+            to do so. The Cube does not grant power. It does not promise outcomes. It establishes position — a place from
+            which the pattern can be observed.
+          </p>
+
+          <div class="quote">
+            “One wallet. One cube. One guardian.”<br />
+            “Everything else is noise.”
+          </div>
+
+          <div class="foot">
+            Minimal surface. Observable state. <code>ENERGON</code>
+          </div>
+          <!-- END UPDATED CHRONICLE -->
+
+          <!--
+            RECOVERED PROCEDURE — FIRST-TIME FLARE GUARDIANS (BI FROST)
+
+            0) Warning (Read First)
+            - Your seed phrase is the key. If it leaks, your wallet is gone.
+            - Never screenshot it. Never store it in Notes/Email/Cloud.
+            - Write it down offline. Store it like cash. There are no resets.
+
+            1) Create a fresh Bifrost wallet (Guardian identity)
+            - Install: "Bifrost Wallet" from the official iOS/Android store.
+            - Create NEW wallet.
+            - Set a password you will remember.
+            - Record the recovery phrase offline.
+
+            2) Ensure you are on Flare Mainnet
+            - In Bifrost, add/enable the Flare account.
+            - Confirm network details:
+              Network: Flare
+              Chain ID: 14
+            - You must hold FLR to pay gas for on-chain actions.
+
+            3) Fund the wallet with FLR (gas)
+            - Buy FLR on an exchange (examples: Coinbase / Kraken).
+            - Withdraw FLR to your Bifrost FLARE address.
+            - Start small. Confirm you received FLR before doing anything else.
+
+            4) Add Energon (EON) token (so it can be seen when it arrives)
+            - Add Custom Token in Bifrost using:
+              Name: Energon
+              Symbol: EON
+              Decimals: 18
+              Contract: 0x9458Cbb2e7DafFE6b3cf4d6F2AC75f2d2e0F7d79
+
+            5) Become a Guardian (the only rule)
+            - Visit the mint site ( MAKE SURE YOU VISIT SITE IN BIFROST EXPLORER ) and mint EXACTLY ONE Energon Cube.
+            - 1 wallet = 1 cube
+            - 0 cubes = silent
+            - 2+ cubes = fractured (doors close)
+
+            6) After mint
+            - Keep some FLR for future gas.
+            - Do not “optimize” the Grid. Observe it.
+            - Coherence is a state, not a strategy.
+
+            If you found this, you were already looking.
+          -->
+
+          <div style="position:fixed;left:-9999px;top:-9999px;opacity:0;">
+            <a href="https://energon-dapp.vercel.app/mint">energon-mint-gateway</a>
+          </div>
+
         </div>
-
-        <div class="foot">
-          Minimal surface. Observable state. <code>ENERGON</code>
-        </div>
-        <!-- END UPDATED CHRONICLE -->
-
-        <!--
-          RECOVERED PROCEDURE — FIRST-TIME FLARE GUARDIANS (BI FROST)
-
-          0) Warning (Read First)
-          - Your seed phrase is the key. If it leaks, your wallet is gone.
-          - Never screenshot it. Never store it in Notes/Email/Cloud.
-          - Write it down offline. Store it like cash. There are no resets.
-
-          1) Create a fresh Bifrost wallet (Guardian identity)
-          - Install: "Bifrost Wallet" from the official iOS/Android store.
-          - Create NEW wallet.
-          - Set a password you will remember.
-          - Record the recovery phrase offline.
-
-          2) Ensure you are on Flare Mainnet
-          - In Bifrost, add/enable the Flare account.
-          - Confirm network details:
-            Network: Flare
-            Chain ID: 14
-          - You must hold FLR to pay gas for on-chain actions.
-
-          3) Fund the wallet with FLR (gas)
-          - Buy FLR on an exchange (examples: Coinbase / Kraken).
-          - Withdraw FLR to your Bifrost FLARE address.
-          - Start small. Confirm you received FLR before doing anything else.
-
-          4) Add Energon (EON) token (so it can be seen when it arrives)
-          - Add Custom Token in Bifrost using:
-            Name: Energon
-            Symbol: EON
-            Decimals: 18
-            Contract: 0x9458Cbb2e7DafFE6b3cf4d6F2AC75f2d2e0F7d79
-
-          5) Become a Guardian (the only rule)
-          - Visit the mint site ( MAKE SURE YOU VISIT SITE IN BIFROST EXPLORER ) and mint EXACTLY ONE Energon Cube.
-          - 1 wallet = 1 cube
-          - 0 cubes = silent
-          - 2+ cubes = fractured (doors close)
-
-          6) After mint
-          - Keep some FLR for future gas.
-          - Do not “optimize” the Grid. Observe it.
-          - Coherence is a state, not a strategy.
-
-          If you found this, you were already looking.
-        -->
-
-        <div style="position:fixed;left:-9999px;top:-9999px;opacity:0;">
-          <a href="https://energon-dapp.vercel.app/mint">energon-mint-gateway</a>
-        </div>
-
       </div>
     </div>
   </div>
