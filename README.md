@@ -37,4 +37,4 @@ It does not define it.
 
 ## Live Page
 
-https://energon-guardian-page.vercel.app
+https://guardian.energon.app
